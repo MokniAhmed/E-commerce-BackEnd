@@ -10,7 +10,7 @@ const createToken = require("../utils/createToken");
 const User = require("../models/userModel");
 
 // @desc    Signup
-// @route   GET /api/v1/auth/signup
+// @route   POST /api/v1/auth/signup
 // @access  Public
 exports.signup = asyncHandler(async (req, res, next) => {
   // 1- Create user
