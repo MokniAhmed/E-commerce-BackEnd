@@ -19,12 +19,12 @@ const {
 
 const authService = require("../middlewares/authMiddleware");
 
-// const subcategoriesRoute = require("./subCategoryRoute");
+const subcategoriesRoute = require("./subCategoryRoute");
 
 const router = express.Router();
 
 // Nested route
-// router.use("/:categoryId/subcategories", subcategoriesRoute);
+router.use("/:categoryId/subcategories", subcategoriesRoute);
 
 router
   .route("/")
