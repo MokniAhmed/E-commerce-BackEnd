@@ -12,6 +12,10 @@ const cartSchema = new mongoose.Schema(
           type: Number,
           default: 1,
         },
+        isDeleted: {
+          type: Boolean,
+          default: false,
+        },
 
         price: Number,
       },

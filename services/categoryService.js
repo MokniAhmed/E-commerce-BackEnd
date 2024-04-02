@@ -56,9 +56,12 @@ exports.deleteCategory = factory.deleteOne(Category);
 exports.deleteSupCategory = asyncHandler(async (req, res, next) => {
   const categoryId = req.params.id;
   console.log(categoryId);
-  const ress = await SubCategory.deleteMany({
-    category: categoryId,
-  });
+  const ress = await SubCategory.updateMany(
+    { category: categoryId },
+    {
+      isDeleted: true,
+    }
+  );
 
   console.log(ress);
   next();

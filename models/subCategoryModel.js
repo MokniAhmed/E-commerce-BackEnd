@@ -13,6 +13,10 @@ const subCategorySchema = new mongoose.Schema(
       type: String,
       lowercase: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     category: {
       type: mongoose.Schema.ObjectId,
       ref: "Category",

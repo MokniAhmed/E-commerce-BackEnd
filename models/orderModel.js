@@ -28,6 +28,10 @@ const orderSchema = new mongoose.Schema(
       city: String,
       postalCode: String,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     shippingPrice: {
       type: Number,
       default: 0,

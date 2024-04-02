@@ -23,6 +23,10 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Product quantity is required"],
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     sold: {
       type: Number,
       default: 0,
