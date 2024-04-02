@@ -15,6 +15,7 @@ const {
   deleteCategory,
   uploadCategoryImage,
   resizeImage,
+  deleteSupCategory,
 } = require("../services/categoryService");
 
 const authService = require("../middlewares/authMiddleware");
@@ -52,6 +53,7 @@ router
     authService.protect,
     authService.allowedTo("admin"),
     deleteCategoryValidator,
+    deleteSupCategory,
     deleteCategory
   );
 

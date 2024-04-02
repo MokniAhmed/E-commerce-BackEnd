@@ -22,20 +22,32 @@ const subCategorySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-const setImageURL = (doc) => {
-  if (doc.image) {
-    const imageUrl = `${process.env.BASE_URL}/subCategories/${doc.image}`;
-    doc.image = imageUrl;
-  }
-};
-// findOne, findAll and update
-subCategorySchema.post("init", (doc) => {
-  setImageURL(doc);
-});
 
-// create
-subCategorySchema.post("save", (doc) => {
-  setImageURL(doc);
+
+subCategorySchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "category",
+    select: "name _id",
+  });
+
+  next();
 });
+// const setImageURL = (doc) => {
+//   if (doc.image) {
+//     const imageUrl = `/subCategories/${doc.image}`;
+//     doc.image = imageUrl;
+//   }
+// };
+
+
+// // findOne, findAll and update
+// subCategorySchema.post("init", (doc) => {
+//   setImageURL(doc);
+// });
+
+// // create
+// subCategorySchema.post("save", (doc) => {
+//   setImageURL(doc);
+// });
 
 module.exports = mongoose.model("SubCategory", subCategorySchema);

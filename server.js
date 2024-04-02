@@ -59,6 +59,8 @@ if (process.env.NODE_ENV === "development") {
 //     ],
 //   })
 // );
+app.use(express.static("uploads"));
+
 
 // Mount Routes
 mountRoutes(app);

@@ -5,9 +5,10 @@ const asyncHandler = require('express-async-handler');
 const factory = require('./handlersFactory');
 const { uploadSingleImage } = require('../middlewares/uploadImageMiddleware');
 const Category = require('../models/categoryModel');
+const SubCategory = require("../models/subCategoryModel");
 
 // Upload single image
-exports.uploadCategoryImage = uploadSingleImage('image');
+exports.uploadCategoryImage = uploadSingleImage("image");
 
 // Image processing
 exports.resizeImage = asyncHandler(async (req, res, next) => {
@@ -16,7 +17,7 @@ exports.resizeImage = asyncHandler(async (req, res, next) => {
   if (req.file) {
     await sharp(req.file.buffer)
       .resize(600, 600)
-      .toFormat('jpeg')
+      .toFormat("jpeg")
       .jpeg({ quality: 95 })
       .toFile(`uploads/categories/${filename}`);
 
@@ -51,3 +52,14 @@ exports.updateCategory = factory.updateOne(Category);
 // @route   DELETE /api/v1/categories/:id
 // @access  Private/Admin
 exports.deleteCategory = factory.deleteOne(Category);
+
+exports.deleteSupCategory = asyncHandler(async (req, res, next) => {
+  const categoryId = req.params.id;
+  console.log(categoryId);
+  const ress = await SubCategory.deleteMany({
+    category: categoryId,
+  });
+
+  console.log(ress);
+  next();
+});

@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema(
     description: {
       type: String,
       required: [true, "Product description is required"],
-      minlength: [20, "Too short product description"],
+      minlength: [10, "Too short product description"],
     },
     quantity: {
       type: Number,
@@ -70,37 +70,41 @@ const productSchema = new mongoose.Schema(
 productSchema.pre(/^find/, function (next) {
   this.populate({
     path: "category",
-    select: "name -_id",
+    select: "name ",
   });
   this.populate({
     path: "subcategories",
-    select: "name -_id",
+    select: "name ",
+  });
+  this.populate({
+    path: "brand",
+    select: "name ",
   });
   next();
 });
 
-const setImageURL = (doc) => {
-  if (doc.imageCover) {
-    const imageUrl = `${process.env.BASE_URL}/products/${doc.imageCover}`;
-    doc.imageCover = imageUrl;
-  }
-  if (doc.images) {
-    const imagesList = [];
-    doc.images.forEach((image) => {
-      const imageUrl = `${process.env.BASE_URL}/products/${image}`;
-      imagesList.push(imageUrl);
-    });
-    doc.images = imagesList;
-  }
-};
+// const setImageURL = (doc) => {
+//   if (doc.imageCover) {
+//     const imageUrl = `/products/${doc.imageCover}`;
+//     doc.imageCover = imageUrl;
+//   }
+//   if (doc.images) {
+//     const imagesList = [];
+//     doc.images.forEach((image) => {
+//       const imageUrl = `/products/${image}`;
+//       imagesList.push(imageUrl);
+//     });
+//     doc.images = imagesList;
+//   }
+// };
 // findOne, findAll and update
-productSchema.post("init", (doc) => {
-  setImageURL(doc);
-});
+// productSchema.post("init", (doc) => {
+//   setImageURL(doc);
+// });
 
-// create
-productSchema.post("save", (doc) => {
-  setImageURL(doc);
-});
+// // create
+// productSchema.post("save", (doc) => {
+//   setImageURL(doc);
+// });
 
 module.exports = mongoose.model("Product", productSchema);

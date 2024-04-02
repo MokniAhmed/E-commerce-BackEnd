@@ -48,10 +48,7 @@ exports.createProductValidator = [
     }),
 
   check("imageCover").notEmpty().withMessage("Product imageCover is required"),
-  check("images")
-    .optional()
-    .isArray()
-    .withMessage("images should be array of string"),
+
   check("category")
     .notEmpty()
     .withMessage("Product must be belong to a category")

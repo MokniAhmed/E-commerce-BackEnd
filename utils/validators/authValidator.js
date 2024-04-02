@@ -78,14 +78,14 @@ exports.signupValidator = [
     .withMessage("Email required")
     .isEmail()
     .withMessage("Invalid email address"),
-  check("newPassword")
+  check("password")
     .notEmpty()
     .withMessage("Password required")
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters")
-    .custom((newPassword, { req }) => {
-      if (newPassword !== req.body.passwordConfirm) {
-        throw new Error("newPassword Confirmation incorrect");
+    .custom((password, { req }) => {
+      if (password !== req.body.passwordConfirm) {
+        throw new Error("password Confirmation incorrect");
       }
       return true;
     }),
