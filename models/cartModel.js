@@ -12,15 +12,15 @@ const cartSchema = new mongoose.Schema(
           type: Number,
           default: 1,
         },
-        isDeleted: {
-          type: Boolean,
-          default: false,
-        },
 
         price: Number,
       },
     ],
     totalCartPrice: Number,
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
