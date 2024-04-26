@@ -21,6 +21,7 @@ const {
   updateLoggedUserPassword,
   updateLoggedUserData,
   deleteLoggedUserData,
+  updateAdressLoggedUserData,
 } = require("../services/userService");
 
 const authService = require("../middlewares/authMiddleware");
@@ -31,7 +32,14 @@ router.use(authService.protect);
 
 router.get("/getMe", getLoggedUserData, getUser);
 router.put("/changeMyPassword", updateLoggedUserPassword);
-router.put("/updateMe", updateLoggedUserValidator, updateLoggedUserData);
+router.put(
+  "/updateMe",
+  uploadUserImage,
+  resizeImage,
+  updateLoggedUserValidator,
+  updateLoggedUserData
+);
+router.put("/updateAddresMe", updateAdressLoggedUserData);
 router.delete("/deleteMe", deleteLoggedUserData);
 
 // Admin

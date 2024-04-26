@@ -23,10 +23,10 @@ exports.createDevis = asyncHandler(async (req, res, next) => {
   const shippingPrice = 0;
 
   // 1) Get cart depend on cartId
-  const cart = await Cart.findById(req.params.cartId);
+  const cart = await Cart.findOne({ user: req.user._id });
   if (!cart) {
     return next(
-      new ApiError(`There is no such cart with id ${req.params.cartId}`, 404)
+      new ApiError(`There is no such cart with id ${req.user._id}`, 404)
     );
   }
 
@@ -43,7 +43,7 @@ exports.createDevis = asyncHandler(async (req, res, next) => {
   });
 
   // 5) Clear cart depend on cartId
-  await Cart.findByIdAndDelete(req.params.cartId);
+  await Cart.findOneAndDelete({ user: req.user._id });
 
   res.status(201).json({ status: "success", data: devis });
 });

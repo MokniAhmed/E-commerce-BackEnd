@@ -6,6 +6,7 @@ const {
   filterOrderForLoggedUser,
   updateOrderToPaid,
   updateOrderToDelivered,
+  deleteSpecificOrder,
 } = require("../services/orderService");
 
 const authMiddleware = require("../middlewares/authMiddleware");
@@ -15,7 +16,7 @@ const router = express.Router();
 router.use(authMiddleware.protect);
 
 router
-  .route("/:cartId")
+  .route("/:devisId")
   .post(authMiddleware.allowedTo("user"), createCashOrder);
 router.get(
   "/",
@@ -24,6 +25,7 @@ router.get(
   findAllOrders
 );
 router.get("/:id", findSpecificOrder);
+router.delete("/:id", deleteSpecificOrder);
 
 router.put(
   "/:id/pay",

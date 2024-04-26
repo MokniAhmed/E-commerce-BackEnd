@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.use(authMiddleware.protect);
 
-router.route("/:cartId").post(authMiddleware.allowedTo("user"), createDevis);
+router.route("/").post(authMiddleware.allowedTo("user"), createDevis);
 router.get(
   "/",
   authMiddleware.allowedTo("user", "admin", "manager"),

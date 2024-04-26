@@ -3,40 +3,38 @@ const factory = require("./handlersFactory");
 const ApiError = require("../utils/apiError");
 
 const Product = require("../models/productModel");
-const Cart = require("../models/cartModel");
 const Order = require("../models/orderModel");
+const Devis = require("../models/devisModel");
 
 // @desc    create cash order
-// @route   POST /api/v1/orders/cartId
+// @route   POST /api/v1/orders/devisId
 // @access  Protected/User
 exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // app settings
-  const taxPrice = 0;
-  const shippingPrice = 0;
+  // const taxPrice = 0;
+  // const shippingPrice = 0;
 
   // 1) Get cart depend on cartId
-  const cart = await Cart.findById(req.params.cartId);
-  if (!cart) {
+  const devis = await Devis.findById(req.params.devisId);
+  if (!devis) {
     return next(
-      new ApiError(`There is no such cart with id ${req.params.cartId}`, 404)
+      new ApiError(`There is no such devis with id ${req.params.devisId}`, 404)
     );
   }
 
-  const cartPrice = cart.totalCartPrice;
-
-  const totalOrderPrice = cartPrice + taxPrice + shippingPrice;
+  const totalOrderPrice = devis.totalDevisPrice;
 
   // 3) Create order with default paymentMethodType cash
   const order = await Order.create({
     user: req.user._id,
-    cartItems: cart.cartItems,
+    cartItems: devis.cartItems,
     shippingAddress: req.body.shippingAddress,
     totalOrderPrice,
   });
 
   // 4) After creating order, decrement product quantity, increment product sold
   if (order) {
-    const bulkOption = cart.cartItems.map((item) => ({
+    const bulkOption = devis.cartItems.map((item) => ({
       updateOne: {
         filter: { _id: item.product },
         update: { $inc: { quantity: -item.quantity, sold: +item.quantity } },
@@ -44,8 +42,9 @@ exports.createCashOrder = asyncHandler(async (req, res, next) => {
     }));
     await Product.bulkWrite(bulkOption, {});
 
-    // 5) Clear cart depend on cartId
-    await Cart.findByIdAndDelete(req.params.cartId);
+    // 5) update devis to ordered
+    devis.status = "Ordered";
+    await devis.save();
   }
 
   res.status(201).json({ status: "success", data: order });
@@ -64,6 +63,11 @@ exports.findAllOrders = factory.getAll(Order);
 // @route   POST /api/v1/orders
 // @access  Protected/User-Admin-Manager
 exports.findSpecificOrder = factory.getOne(Order);
+
+// @desc    delete order
+// @route   POST /api/v1/order/:id
+// @access  Protected/User-Admin-Manager
+exports.deleteSpecificOrder = factory.deleteOne(Order);
 
 // @desc    Update order paid status to paid
 // @route   PUT /api/v1/orders/:id/pay
