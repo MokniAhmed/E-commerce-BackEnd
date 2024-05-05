@@ -24,7 +24,7 @@ router
   .get(getProducts)
   .post(
     authService.protect,
-    authService.allowedTo("admin", "manager"),
+    authService.allowedTo("admin", "equipeCom"),
     uploadProductImages,
     resizeProductImages,
     createProductValidator,
@@ -35,7 +35,7 @@ router
   .get(getProductValidator, getProduct)
   .put(
     authService.protect,
-    authService.allowedTo("admin", "manager"),
+    authService.allowedTo("admin", "equipeCom"),
     uploadProductImages,
     resizeProductImages,
     updateProductValidator,
@@ -43,7 +43,7 @@ router
   )
   .delete(
     authService.protect,
-    authService.allowedTo("admin"),
+    authService.allowedTo("admin", "equipeCom"),
     deleteProductValidator,
     deleteProduct
   );

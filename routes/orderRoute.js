@@ -20,7 +20,7 @@ router
   .post(authMiddleware.allowedTo("user"), createCashOrder);
 router.get(
   "/",
-  authMiddleware.allowedTo("user", "admin", "manager"),
+  authMiddleware.allowedTo("user", "admin", "equipeCom"),
   filterOrderForLoggedUser,
   findAllOrders
 );
@@ -29,12 +29,12 @@ router.delete("/:id", deleteSpecificOrder);
 
 router.put(
   "/:id/pay",
-  authMiddleware.allowedTo("admin", "manager"),
+  authMiddleware.allowedTo("admin", "equipeCom"),
   updateOrderToPaid
 );
 router.put(
   "/:id/deliver",
-  authMiddleware.allowedTo("admin", "manager"),
+  authMiddleware.allowedTo("admin", "equipeCom"),
   updateOrderToDelivered
 );
 

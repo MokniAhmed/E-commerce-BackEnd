@@ -25,7 +25,7 @@ router
   .get(getBrands)
   .post(
     authService.protect,
-    authService.allowedTo("admin", "manager"),
+    authService.allowedTo("admin", "equipeCom"),
     uploadBrandImage,
     resizeImage,
     createBrandValidator,
@@ -36,7 +36,7 @@ router
   .get(getBrandValidator, getBrand)
   .put(
     authService.protect,
-    authService.allowedTo("admin", "manager"),
+    authService.allowedTo("admin", "equipeCom"),
     uploadBrandImage,
     resizeImage,
     updateBrandValidator,
@@ -44,7 +44,7 @@ router
   )
   .delete(
     authService.protect,
-    authService.allowedTo("admin"),
+    authService.allowedTo("admin", "equipeCom"),
     deleteBrandValidator,
     deleteBrand
   );

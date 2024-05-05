@@ -61,6 +61,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 // ["admin", "manager"]
 exports.allowedTo = (...roles) =>
   asyncHandler(async (req, res, next) => {
+    console.log(req.user.role);
     // 1) access roles
     // 2) access registered user (req.user.role)
     if (!roles.includes(req.user.role)) {

@@ -32,7 +32,7 @@ router
   .get(getCategories)
   .post(
     authService.protect,
-    authService.allowedTo("admin", "manager"),
+    authService.allowedTo("admin", "equipeCom"),
     uploadCategoryImage,
     resizeImage,
     createCategoryValidator,
@@ -43,7 +43,7 @@ router
   .get(getCategoryValidator, getCategory)
   .put(
     authService.protect,
-    authService.allowedTo("admin", "manager"),
+    authService.allowedTo("admin", "equipeCom"),
     uploadCategoryImage,
     resizeImage,
     updateCategoryValidator,
@@ -51,7 +51,7 @@ router
   )
   .delete(
     authService.protect,
-    authService.allowedTo("admin"),
+    authService.allowedTo("admin", "equipeCom"),
     deleteCategoryValidator,
     deleteSupCategory,
     deleteCategory
